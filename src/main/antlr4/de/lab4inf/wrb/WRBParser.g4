@@ -6,39 +6,40 @@ options {
 }
  
 /*entry point*/ 
-eval : program EOF;
+eval : declareVarExp EOF;
 
-program			:	programPart (SEMICOLONE programPart)* (SEMICOLONE)?;
+/*
+ * valid -> expr
+ * valid -> ID = expr
+ * valid -> ID = expr;
+ * valid -> ID = expr; ID = expr
+ * valid -> ID = expr; ID = expr;
+ * valid -> ID1 = expr; ID2 = ID1
+ * valid -> ID1 = expr; ID2 = ID1;
+ * 
+ * error -> ID = expr ID = expr
+ */
+//declareVarExp	: (assignVar | assignFunc | expr) ((SEMICOLONE declareVarExp)* | (SEMICOLONE?));
+declareVarExp	: (assignVarToVar | assignVar | assignFunc | expr) ((SEMICOLONE declareVarExp)* | (SEMICOLONE?));
+				
+assignVarToVar	: left=ID ASSIGN sign=SUB? right=ID;
 
-programPart		:	assigntion
-				|	functionCreate
-				|	expr
-				;
+assignVar	:	ID ASSIGN expr;
 
-functionCreate 	: 	name=ID LPAREN (ID) (COMMA ID)* RPAREN ASSIGN body=expr;
+assignFunc	: name=ID LPAREN ID (COMMA ID)* RPAREN ASSIGN value=expr;
 
-functionCall	:	name=ID LPAREN (expr) (COMMA expr)* RPAREN;
+expr : term ( operator+=(ADD|SUB) term)*					#addsub;
 
-assigntion 		: 	left=ID ASSIGN sign=SUB? right=ID			#VarToVar
-				|	ID ASSIGN expr								#VarToExpr
-				;
+term : atomExp ( operator+=(MUL|DIV) atomExp)* 				#multdiv;
 
-expr 			:	addTerm;
+atomExp	:	SUB? (LPAREN expr RPAREN)						#parens
+		|	sign=SUB? INFINITY								#infinity
+		|	SUB? ID											#id
+		|	number											#val
+		|	name=ID LPAREN expr (COMMA expr)* RPAREN		#functionAtom
+		|	atomExp (POW atomExp)+							#pow
+		;
 
-addTerm			:	mulTerm ( (ADD|SUB) mulTerm)*;
+number : SUB? val=(INTEGER | DOUBLE_);
 
-mulTerm			:	expTerm ( (MUL|DIV) expTerm)*;
-
-expTerm			:	atom ( (EXP) atom)*;
-
-atom			:	SUB? (LPAREN expr RPAREN)					#Parens
-				|	SUB? ID										#Id
-				|	number										#Value
-				|	constant									#SetConstant
-				|	functionCall								#FunctionAtom
-				;
-
-constant 		:	number SEMICOLONE;
-
-number			:	SUB? val=(INTEGER | DOUBLE_);
 

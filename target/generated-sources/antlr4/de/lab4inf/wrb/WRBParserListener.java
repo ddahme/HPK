@@ -19,179 +19,141 @@ public interface WRBParserListener extends ParseTreeListener {
 	 */
 	void exitEval(WRBParser.EvalContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link WRBParser#program}.
+	 * Enter a parse tree produced by {@link WRBParser#declareVarExp}.
 	 * @param ctx the parse tree
 	 */
-	void enterProgram(WRBParser.ProgramContext ctx);
+	void enterDeclareVarExp(WRBParser.DeclareVarExpContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link WRBParser#program}.
+	 * Exit a parse tree produced by {@link WRBParser#declareVarExp}.
 	 * @param ctx the parse tree
 	 */
-	void exitProgram(WRBParser.ProgramContext ctx);
+	void exitDeclareVarExp(WRBParser.DeclareVarExpContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link WRBParser#programPart}.
+	 * Enter a parse tree produced by {@link WRBParser#assignVarToVar}.
 	 * @param ctx the parse tree
 	 */
-	void enterProgramPart(WRBParser.ProgramPartContext ctx);
+	void enterAssignVarToVar(WRBParser.AssignVarToVarContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link WRBParser#programPart}.
+	 * Exit a parse tree produced by {@link WRBParser#assignVarToVar}.
 	 * @param ctx the parse tree
 	 */
-	void exitProgramPart(WRBParser.ProgramPartContext ctx);
+	void exitAssignVarToVar(WRBParser.AssignVarToVarContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link WRBParser#functionCreate}.
+	 * Enter a parse tree produced by {@link WRBParser#assignVar}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunctionCreate(WRBParser.FunctionCreateContext ctx);
+	void enterAssignVar(WRBParser.AssignVarContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link WRBParser#functionCreate}.
+	 * Exit a parse tree produced by {@link WRBParser#assignVar}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunctionCreate(WRBParser.FunctionCreateContext ctx);
+	void exitAssignVar(WRBParser.AssignVarContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link WRBParser#functionCall}.
+	 * Enter a parse tree produced by {@link WRBParser#assignFunc}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunctionCall(WRBParser.FunctionCallContext ctx);
+	void enterAssignFunc(WRBParser.AssignFuncContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link WRBParser#functionCall}.
+	 * Exit a parse tree produced by {@link WRBParser#assignFunc}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunctionCall(WRBParser.FunctionCallContext ctx);
+	void exitAssignFunc(WRBParser.AssignFuncContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code VarToVar}
-	 * labeled alternative in {@link WRBParser#assigntion}.
+	 * Enter a parse tree produced by the {@code addsub}
+	 * labeled alternative in {@link WRBParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterVarToVar(WRBParser.VarToVarContext ctx);
+	void enterAddsub(WRBParser.AddsubContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code VarToVar}
-	 * labeled alternative in {@link WRBParser#assigntion}.
+	 * Exit a parse tree produced by the {@code addsub}
+	 * labeled alternative in {@link WRBParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitVarToVar(WRBParser.VarToVarContext ctx);
+	void exitAddsub(WRBParser.AddsubContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code VarToExpr}
-	 * labeled alternative in {@link WRBParser#assigntion}.
+	 * Enter a parse tree produced by the {@code multdiv}
+	 * labeled alternative in {@link WRBParser#term}.
 	 * @param ctx the parse tree
 	 */
-	void enterVarToExpr(WRBParser.VarToExprContext ctx);
+	void enterMultdiv(WRBParser.MultdivContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code VarToExpr}
-	 * labeled alternative in {@link WRBParser#assigntion}.
+	 * Exit a parse tree produced by the {@code multdiv}
+	 * labeled alternative in {@link WRBParser#term}.
 	 * @param ctx the parse tree
 	 */
-	void exitVarToExpr(WRBParser.VarToExprContext ctx);
+	void exitMultdiv(WRBParser.MultdivContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link WRBParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpr(WRBParser.ExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link WRBParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpr(WRBParser.ExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link WRBParser#addTerm}.
-	 * @param ctx the parse tree
-	 */
-	void enterAddTerm(WRBParser.AddTermContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link WRBParser#addTerm}.
-	 * @param ctx the parse tree
-	 */
-	void exitAddTerm(WRBParser.AddTermContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link WRBParser#mulTerm}.
-	 * @param ctx the parse tree
-	 */
-	void enterMulTerm(WRBParser.MulTermContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link WRBParser#mulTerm}.
-	 * @param ctx the parse tree
-	 */
-	void exitMulTerm(WRBParser.MulTermContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link WRBParser#expTerm}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpTerm(WRBParser.ExpTermContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link WRBParser#expTerm}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpTerm(WRBParser.ExpTermContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code Parens}
-	 * labeled alternative in {@link WRBParser#atom}.
-	 * @param ctx the parse tree
-	 */
-	void enterParens(WRBParser.ParensContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Parens}
-	 * labeled alternative in {@link WRBParser#atom}.
-	 * @param ctx the parse tree
-	 */
-	void exitParens(WRBParser.ParensContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code Id}
-	 * labeled alternative in {@link WRBParser#atom}.
-	 * @param ctx the parse tree
-	 */
-	void enterId(WRBParser.IdContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Id}
-	 * labeled alternative in {@link WRBParser#atom}.
-	 * @param ctx the parse tree
-	 */
-	void exitId(WRBParser.IdContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code Value}
-	 * labeled alternative in {@link WRBParser#atom}.
-	 * @param ctx the parse tree
-	 */
-	void enterValue(WRBParser.ValueContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Value}
-	 * labeled alternative in {@link WRBParser#atom}.
-	 * @param ctx the parse tree
-	 */
-	void exitValue(WRBParser.ValueContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code SetConstant}
-	 * labeled alternative in {@link WRBParser#atom}.
-	 * @param ctx the parse tree
-	 */
-	void enterSetConstant(WRBParser.SetConstantContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code SetConstant}
-	 * labeled alternative in {@link WRBParser#atom}.
-	 * @param ctx the parse tree
-	 */
-	void exitSetConstant(WRBParser.SetConstantContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code FunctionAtom}
-	 * labeled alternative in {@link WRBParser#atom}.
+	 * Enter a parse tree produced by the {@code functionAtom}
+	 * labeled alternative in {@link WRBParser#atomExp}.
 	 * @param ctx the parse tree
 	 */
 	void enterFunctionAtom(WRBParser.FunctionAtomContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code FunctionAtom}
-	 * labeled alternative in {@link WRBParser#atom}.
+	 * Exit a parse tree produced by the {@code functionAtom}
+	 * labeled alternative in {@link WRBParser#atomExp}.
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionAtom(WRBParser.FunctionAtomContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link WRBParser#constant}.
+	 * Enter a parse tree produced by the {@code val}
+	 * labeled alternative in {@link WRBParser#atomExp}.
 	 * @param ctx the parse tree
 	 */
-	void enterConstant(WRBParser.ConstantContext ctx);
+	void enterVal(WRBParser.ValContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link WRBParser#constant}.
+	 * Exit a parse tree produced by the {@code val}
+	 * labeled alternative in {@link WRBParser#atomExp}.
 	 * @param ctx the parse tree
 	 */
-	void exitConstant(WRBParser.ConstantContext ctx);
+	void exitVal(WRBParser.ValContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code id}
+	 * labeled alternative in {@link WRBParser#atomExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterId(WRBParser.IdContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code id}
+	 * labeled alternative in {@link WRBParser#atomExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitId(WRBParser.IdContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code pow}
+	 * labeled alternative in {@link WRBParser#atomExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterPow(WRBParser.PowContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code pow}
+	 * labeled alternative in {@link WRBParser#atomExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitPow(WRBParser.PowContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code parens}
+	 * labeled alternative in {@link WRBParser#atomExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterParens(WRBParser.ParensContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parens}
+	 * labeled alternative in {@link WRBParser#atomExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitParens(WRBParser.ParensContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code infinity}
+	 * labeled alternative in {@link WRBParser#atomExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterInfinity(WRBParser.InfinityContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code infinity}
+	 * labeled alternative in {@link WRBParser#atomExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitInfinity(WRBParser.InfinityContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link WRBParser#number}.
 	 * @param ctx the parse tree

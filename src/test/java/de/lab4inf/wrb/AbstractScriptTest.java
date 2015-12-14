@@ -34,7 +34,7 @@ import static java.lang.Math.*;
  * Test of the Wulff RunsBeta-Script language.
  * @author  nwulff
  * @since   16.10.2013
- * @version $Id: AbstractScriptTest.java,v 1.11 2014/10/30 12:05:41 nwulff Exp $
+ * @version $Id: AbstractScriptTest.java,v 1.1 2014/10/30 20:02:18 cvsu07 Exp $
  */
 public abstract class AbstractScriptTest {
     final Class<?> base = AbstractScriptTest.class;
@@ -840,7 +840,7 @@ public abstract class AbstractScriptTest {
             x = 0.1 + Math.random();
             script.setVariable("x",x);
             task = "log(x)";
-            assertEquals(log(x), script.parse(task), eps);
+            assertEquals(log10(x), script.parse(task), eps);
         }
     }
 

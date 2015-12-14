@@ -17,26 +17,24 @@ public class WRBParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		ADD=1, SUB=2, DIV=3, MUL=4, EXP=5, MOD=6, COLONE=7, SEMICOLONE=8, DOT=9, 
-		COMMA=10, ASSIGN=11, UNDERLINE=12, LPAREN=13, RPAREN=14, LBRACK=15, RBRACK=16, 
+		ADD=1, SUB=2, DIV=3, MUL=4, MOD=5, POW=6, COMMA=7, COLONE=8, SEMICOLONE=9, 
+		DOT=10, ASSIGN=11, UNDERLINE=12, LPAREN=13, RPAREN=14, LBRACK=15, RBRACK=16, 
 		INFINITY=17, ID=18, DOUBLE_=19, INTEGER=20, WS=21;
 	public static final int
-		RULE_eval = 0, RULE_program = 1, RULE_programPart = 2, RULE_functionCreate = 3, 
-		RULE_functionCall = 4, RULE_assigntion = 5, RULE_expr = 6, RULE_addTerm = 7, 
-		RULE_mulTerm = 8, RULE_expTerm = 9, RULE_atom = 10, RULE_constant = 11, 
-		RULE_number = 12;
+		RULE_eval = 0, RULE_declareVarExp = 1, RULE_assignVarToVar = 2, RULE_assignVar = 3, 
+		RULE_assignFunc = 4, RULE_expr = 5, RULE_term = 6, RULE_atomExp = 7, RULE_number = 8;
 	public static final String[] ruleNames = {
-		"eval", "program", "programPart", "functionCreate", "functionCall", "assigntion", 
-		"expr", "addTerm", "mulTerm", "expTerm", "atom", "constant", "number"
+		"eval", "declareVarExp", "assignVarToVar", "assignVar", "assignFunc", 
+		"expr", "term", "atomExp", "number"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'+'", "'-'", "'/'", "'*'", null, "'%'", "':'", "';'", "'.'", "','", 
+		null, "'+'", "'-'", "'/'", "'*'", "'%'", null, "','", "':'", "';'", "'.'", 
 		"'='", "'_'", "'('", "')'", "'['", "']'", "'Infinity'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "ADD", "SUB", "DIV", "MUL", "EXP", "MOD", "COLONE", "SEMICOLONE", 
-		"DOT", "COMMA", "ASSIGN", "UNDERLINE", "LPAREN", "RPAREN", "LBRACK", "RBRACK", 
+		null, "ADD", "SUB", "DIV", "MUL", "MOD", "POW", "COMMA", "COLONE", "SEMICOLONE", 
+		"DOT", "ASSIGN", "UNDERLINE", "LPAREN", "RPAREN", "LBRACK", "RBRACK", 
 		"INFINITY", "ID", "DOUBLE_", "INTEGER", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -89,8 +87,8 @@ public class WRBParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class EvalContext extends ParserRuleContext {
-		public ProgramContext program() {
-			return getRuleContext(ProgramContext.class,0);
+		public DeclareVarExpContext declareVarExp() {
+			return getRuleContext(DeclareVarExpContext.class,0);
 		}
 		public TerminalNode EOF() { return getToken(WRBParser.EOF, 0); }
 		public EvalContext(ParserRuleContext parent, int invokingState) {
@@ -113,9 +111,9 @@ public class WRBParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(26);
-			program();
-			setState(27);
+			setState(18);
+			declareVarExp();
+			setState(19);
 			match(EOF);
 			}
 		}
@@ -130,213 +128,117 @@ public class WRBParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ProgramContext extends ParserRuleContext {
-		public List<ProgramPartContext> programPart() {
-			return getRuleContexts(ProgramPartContext.class);
+	public static class DeclareVarExpContext extends ParserRuleContext {
+		public AssignVarToVarContext assignVarToVar() {
+			return getRuleContext(AssignVarToVarContext.class,0);
 		}
-		public ProgramPartContext programPart(int i) {
-			return getRuleContext(ProgramPartContext.class,i);
+		public AssignVarContext assignVar() {
+			return getRuleContext(AssignVarContext.class,0);
+		}
+		public AssignFuncContext assignFunc() {
+			return getRuleContext(AssignFuncContext.class,0);
+		}
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
 		}
 		public List<TerminalNode> SEMICOLONE() { return getTokens(WRBParser.SEMICOLONE); }
 		public TerminalNode SEMICOLONE(int i) {
 			return getToken(WRBParser.SEMICOLONE, i);
 		}
-		public ProgramContext(ParserRuleContext parent, int invokingState) {
+		public List<DeclareVarExpContext> declareVarExp() {
+			return getRuleContexts(DeclareVarExpContext.class);
+		}
+		public DeclareVarExpContext declareVarExp(int i) {
+			return getRuleContext(DeclareVarExpContext.class,i);
+		}
+		public DeclareVarExpContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_program; }
+		@Override public int getRuleIndex() { return RULE_declareVarExp; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterProgram(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterDeclareVarExp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitProgram(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitDeclareVarExp(this);
 		}
 	}
 
-	public final ProgramContext program() throws RecognitionException {
-		ProgramContext _localctx = new ProgramContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_program);
-		int _la;
+	public final DeclareVarExpContext declareVarExp() throws RecognitionException {
+		DeclareVarExpContext _localctx = new DeclareVarExpContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_declareVarExp);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
-			programPart();
-			setState(34);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(30);
-					match(SEMICOLONE);
-					setState(31);
-					programPart();
-					}
-					} 
-				}
-				setState(36);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-			}
-			setState(38);
-			_la = _input.LA(1);
-			if (_la==SEMICOLONE) {
-				{
-				setState(37);
-				match(SEMICOLONE);
-				}
-			}
-
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ProgramPartContext extends ParserRuleContext {
-		public AssigntionContext assigntion() {
-			return getRuleContext(AssigntionContext.class,0);
-		}
-		public FunctionCreateContext functionCreate() {
-			return getRuleContext(FunctionCreateContext.class,0);
-		}
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public ProgramPartContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_programPart; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterProgramPart(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitProgramPart(this);
-		}
-	}
-
-	public final ProgramPartContext programPart() throws RecognitionException {
-		ProgramPartContext _localctx = new ProgramPartContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_programPart);
-		try {
-			setState(43);
-			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			setState(25);
+			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
 			case 1:
-				enterOuterAlt(_localctx, 1);
 				{
-				setState(40);
-				assigntion();
+				setState(21);
+				assignVarToVar();
 				}
 				break;
 			case 2:
-				enterOuterAlt(_localctx, 2);
 				{
-				setState(41);
-				functionCreate();
+				setState(22);
+				assignVar();
 				}
 				break;
 			case 3:
-				enterOuterAlt(_localctx, 3);
 				{
-				setState(42);
+				setState(23);
+				assignFunc();
+				}
+				break;
+			case 4:
+				{
+				setState(24);
 				expr();
 				}
 				break;
 			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class FunctionCreateContext extends ParserRuleContext {
-		public Token name;
-		public ExprContext body;
-		public TerminalNode LPAREN() { return getToken(WRBParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(WRBParser.RPAREN, 0); }
-		public TerminalNode ASSIGN() { return getToken(WRBParser.ASSIGN, 0); }
-		public List<TerminalNode> ID() { return getTokens(WRBParser.ID); }
-		public TerminalNode ID(int i) {
-			return getToken(WRBParser.ID, i);
-		}
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public List<TerminalNode> COMMA() { return getTokens(WRBParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(WRBParser.COMMA, i);
-		}
-		public FunctionCreateContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_functionCreate; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterFunctionCreate(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitFunctionCreate(this);
-		}
-	}
-
-	public final FunctionCreateContext functionCreate() throws RecognitionException {
-		FunctionCreateContext _localctx = new FunctionCreateContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_functionCreate);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(45);
-			((FunctionCreateContext)_localctx).name = match(ID);
-			setState(46);
-			match(LPAREN);
-			{
-			setState(47);
-			match(ID);
-			}
-			setState(52);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==COMMA) {
+			setState(37);
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			case 1:
 				{
-				{
-				setState(48);
-				match(COMMA);
-				setState(49);
-				match(ID);
-				}
-				}
-				setState(54);
+				setState(31);
 				_errHandler.sync(this);
-				_la = _input.LA(1);
+				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(27);
+						match(SEMICOLONE);
+						setState(28);
+						declareVarExp();
+						}
+						} 
+					}
+					setState(33);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+				}
+				}
+				break;
+			case 2:
+				{
+				{
+				setState(35);
+				switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+				case 1:
+					{
+					setState(34);
+					match(SEMICOLONE);
+					}
+					break;
+				}
+				}
+				}
+				break;
 			}
-			setState(55);
-			match(RPAREN);
-			setState(56);
-			match(ASSIGN);
-			setState(57);
-			((FunctionCreateContext)_localctx).body = expr();
 			}
 		}
 		catch (RecognitionException re) {
@@ -350,93 +252,7 @@ public class WRBParser extends Parser {
 		return _localctx;
 	}
 
-	public static class FunctionCallContext extends ParserRuleContext {
-		public Token name;
-		public TerminalNode LPAREN() { return getToken(WRBParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(WRBParser.RPAREN, 0); }
-		public TerminalNode ID() { return getToken(WRBParser.ID, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public List<TerminalNode> COMMA() { return getTokens(WRBParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(WRBParser.COMMA, i);
-		}
-		public FunctionCallContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_functionCall; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterFunctionCall(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitFunctionCall(this);
-		}
-	}
-
-	public final FunctionCallContext functionCall() throws RecognitionException {
-		FunctionCallContext _localctx = new FunctionCallContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_functionCall);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(59);
-			((FunctionCallContext)_localctx).name = match(ID);
-			setState(60);
-			match(LPAREN);
-			{
-			setState(61);
-			expr();
-			}
-			setState(66);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==COMMA) {
-				{
-				{
-				setState(62);
-				match(COMMA);
-				setState(63);
-				expr();
-				}
-				}
-				setState(68);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(69);
-			match(RPAREN);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AssigntionContext extends ParserRuleContext {
-		public AssigntionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_assigntion; }
-	 
-		public AssigntionContext() { }
-		public void copyFrom(AssigntionContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class VarToVarContext extends AssigntionContext {
+	public static class AssignVarToVarContext extends ParserRuleContext {
 		public Token left;
 		public Token sign;
 		public Token right;
@@ -446,73 +262,166 @@ public class WRBParser extends Parser {
 			return getToken(WRBParser.ID, i);
 		}
 		public TerminalNode SUB() { return getToken(WRBParser.SUB, 0); }
-		public VarToVarContext(AssigntionContext ctx) { copyFrom(ctx); }
+		public AssignVarToVarContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_assignVarToVar; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterVarToVar(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterAssignVarToVar(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitVarToVar(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitAssignVarToVar(this);
 		}
 	}
-	public static class VarToExprContext extends AssigntionContext {
+
+	public final AssignVarToVarContext assignVarToVar() throws RecognitionException {
+		AssignVarToVarContext _localctx = new AssignVarToVarContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_assignVarToVar);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(39);
+			((AssignVarToVarContext)_localctx).left = match(ID);
+			setState(40);
+			match(ASSIGN);
+			setState(42);
+			_la = _input.LA(1);
+			if (_la==SUB) {
+				{
+				setState(41);
+				((AssignVarToVarContext)_localctx).sign = match(SUB);
+				}
+			}
+
+			setState(44);
+			((AssignVarToVarContext)_localctx).right = match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AssignVarContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(WRBParser.ID, 0); }
 		public TerminalNode ASSIGN() { return getToken(WRBParser.ASSIGN, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public VarToExprContext(AssigntionContext ctx) { copyFrom(ctx); }
+		public AssignVarContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_assignVar; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterVarToExpr(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterAssignVar(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitVarToExpr(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitAssignVar(this);
 		}
 	}
 
-	public final AssigntionContext assigntion() throws RecognitionException {
-		AssigntionContext _localctx = new AssigntionContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_assigntion);
+	public final AssignVarContext assignVar() throws RecognitionException {
+		AssignVarContext _localctx = new AssignVarContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_assignVar);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(46);
+			match(ID);
+			setState(47);
+			match(ASSIGN);
+			setState(48);
+			expr();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AssignFuncContext extends ParserRuleContext {
+		public Token name;
+		public ExprContext value;
+		public TerminalNode LPAREN() { return getToken(WRBParser.LPAREN, 0); }
+		public List<TerminalNode> ID() { return getTokens(WRBParser.ID); }
+		public TerminalNode ID(int i) {
+			return getToken(WRBParser.ID, i);
+		}
+		public TerminalNode RPAREN() { return getToken(WRBParser.RPAREN, 0); }
+		public TerminalNode ASSIGN() { return getToken(WRBParser.ASSIGN, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public List<TerminalNode> COMMA() { return getTokens(WRBParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(WRBParser.COMMA, i);
+		}
+		public AssignFuncContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_assignFunc; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterAssignFunc(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitAssignFunc(this);
+		}
+	}
+
+	public final AssignFuncContext assignFunc() throws RecognitionException {
+		AssignFuncContext _localctx = new AssignFuncContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_assignFunc);
 		int _la;
 		try {
-			setState(80);
-			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
-			case 1:
-				_localctx = new VarToVarContext(_localctx);
-				enterOuterAlt(_localctx, 1);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(50);
+			((AssignFuncContext)_localctx).name = match(ID);
+			setState(51);
+			match(LPAREN);
+			setState(52);
+			match(ID);
+			setState(57);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==COMMA) {
 				{
-				setState(71);
-				((VarToVarContext)_localctx).left = match(ID);
-				setState(72);
-				match(ASSIGN);
-				setState(74);
-				_la = _input.LA(1);
-				if (_la==SUB) {
-					{
-					setState(73);
-					((VarToVarContext)_localctx).sign = match(SUB);
-					}
-				}
-
-				setState(76);
-				((VarToVarContext)_localctx).right = match(ID);
-				}
-				break;
-			case 2:
-				_localctx = new VarToExprContext(_localctx);
-				enterOuterAlt(_localctx, 2);
 				{
-				setState(77);
+				setState(53);
+				match(COMMA);
+				setState(54);
 				match(ID);
-				setState(78);
-				match(ASSIGN);
-				setState(79);
-				expr();
 				}
-				break;
+				}
+				setState(59);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(60);
+			match(RPAREN);
+			setState(61);
+			match(ASSIGN);
+			setState(62);
+			((AssignFuncContext)_localctx).value = expr();
 			}
 		}
 		catch (RecognitionException re) {
@@ -527,50 +436,26 @@ public class WRBParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public AddTermContext addTerm() {
-			return getRuleContext(AddTermContext.class,0);
-		}
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitExpr(this);
+	 
+		public ExprContext() { }
+		public void copyFrom(ExprContext ctx) {
+			super.copyFrom(ctx);
 		}
 	}
-
-	public final ExprContext expr() throws RecognitionException {
-		ExprContext _localctx = new ExprContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_expr);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(82);
-			addTerm();
-			}
+	public static class AddsubContext extends ExprContext {
+		public Token ADD;
+		public List<Token> operator = new ArrayList<Token>();
+		public Token SUB;
+		public Token _tset146;
+		public List<TermContext> term() {
+			return getRuleContexts(TermContext.class);
 		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AddTermContext extends ParserRuleContext {
-		public List<MulTermContext> mulTerm() {
-			return getRuleContexts(MulTermContext.class);
-		}
-		public MulTermContext mulTerm(int i) {
-			return getRuleContext(MulTermContext.class,i);
+		public TermContext term(int i) {
+			return getRuleContext(TermContext.class,i);
 		}
 		public List<TerminalNode> ADD() { return getTokens(WRBParser.ADD); }
 		public TerminalNode ADD(int i) {
@@ -580,47 +465,47 @@ public class WRBParser extends Parser {
 		public TerminalNode SUB(int i) {
 			return getToken(WRBParser.SUB, i);
 		}
-		public AddTermContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_addTerm; }
+		public AddsubContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterAddTerm(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterAddsub(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitAddTerm(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitAddsub(this);
 		}
 	}
 
-	public final AddTermContext addTerm() throws RecognitionException {
-		AddTermContext _localctx = new AddTermContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_addTerm);
+	public final ExprContext expr() throws RecognitionException {
+		ExprContext _localctx = new ExprContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_expr);
 		int _la;
 		try {
+			_localctx = new AddsubContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(84);
-			mulTerm();
-			setState(89);
+			setState(64);
+			term();
+			setState(69);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==ADD || _la==SUB) {
 				{
 				{
-				setState(85);
+				setState(65);
+				((AddsubContext)_localctx)._tset146 = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !(_la==ADD || _la==SUB) ) {
-				_errHandler.recoverInline(this);
+					((AddsubContext)_localctx)._tset146 = (Token)_errHandler.recoverInline(this);
 				} else {
 					consume();
 				}
-				setState(86);
-				mulTerm();
+				((AddsubContext)_localctx).operator.add(((AddsubContext)_localctx)._tset146);
+				setState(66);
+				term();
 				}
 				}
-				setState(91);
+				setState(71);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -637,12 +522,27 @@ public class WRBParser extends Parser {
 		return _localctx;
 	}
 
-	public static class MulTermContext extends ParserRuleContext {
-		public List<ExpTermContext> expTerm() {
-			return getRuleContexts(ExpTermContext.class);
+	public static class TermContext extends ParserRuleContext {
+		public TermContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		public ExpTermContext expTerm(int i) {
-			return getRuleContext(ExpTermContext.class,i);
+		@Override public int getRuleIndex() { return RULE_term; }
+	 
+		public TermContext() { }
+		public void copyFrom(TermContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class MultdivContext extends TermContext {
+		public Token MUL;
+		public List<Token> operator = new ArrayList<Token>();
+		public Token DIV;
+		public Token _tset170;
+		public List<AtomExpContext> atomExp() {
+			return getRuleContexts(AtomExpContext.class);
+		}
+		public AtomExpContext atomExp(int i) {
+			return getRuleContext(AtomExpContext.class,i);
 		}
 		public List<TerminalNode> MUL() { return getTokens(WRBParser.MUL); }
 		public TerminalNode MUL(int i) {
@@ -652,47 +552,47 @@ public class WRBParser extends Parser {
 		public TerminalNode DIV(int i) {
 			return getToken(WRBParser.DIV, i);
 		}
-		public MulTermContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_mulTerm; }
+		public MultdivContext(TermContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterMulTerm(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterMultdiv(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitMulTerm(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitMultdiv(this);
 		}
 	}
 
-	public final MulTermContext mulTerm() throws RecognitionException {
-		MulTermContext _localctx = new MulTermContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_mulTerm);
+	public final TermContext term() throws RecognitionException {
+		TermContext _localctx = new TermContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_term);
 		int _la;
 		try {
+			_localctx = new MultdivContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92);
-			expTerm();
-			setState(97);
+			setState(72);
+			atomExp(0);
+			setState(77);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==DIV || _la==MUL) {
 				{
 				{
-				setState(93);
+				setState(73);
+				((MultdivContext)_localctx)._tset170 = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !(_la==DIV || _la==MUL) ) {
-				_errHandler.recoverInline(this);
+					((MultdivContext)_localctx)._tset170 = (Token)_errHandler.recoverInline(this);
 				} else {
 					consume();
 				}
-				setState(94);
-				expTerm();
+				((MultdivContext)_localctx).operator.add(((MultdivContext)_localctx)._tset170);
+				setState(74);
+				atomExp(0);
 				}
 				}
-				setState(99);
+				setState(79);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -709,131 +609,21 @@ public class WRBParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ExpTermContext extends ParserRuleContext {
-		public List<AtomContext> atom() {
-			return getRuleContexts(AtomContext.class);
-		}
-		public AtomContext atom(int i) {
-			return getRuleContext(AtomContext.class,i);
-		}
-		public List<TerminalNode> EXP() { return getTokens(WRBParser.EXP); }
-		public TerminalNode EXP(int i) {
-			return getToken(WRBParser.EXP, i);
-		}
-		public ExpTermContext(ParserRuleContext parent, int invokingState) {
+	public static class AtomExpContext extends ParserRuleContext {
+		public AtomExpContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_expTerm; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterExpTerm(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitExpTerm(this);
-		}
-	}
-
-	public final ExpTermContext expTerm() throws RecognitionException {
-		ExpTermContext _localctx = new ExpTermContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_expTerm);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(100);
-			atom();
-			setState(105);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==EXP) {
-				{
-				{
-				{
-				setState(101);
-				match(EXP);
-				}
-				setState(102);
-				atom();
-				}
-				}
-				setState(107);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AtomContext extends ParserRuleContext {
-		public AtomContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_atom; }
+		@Override public int getRuleIndex() { return RULE_atomExp; }
 	 
-		public AtomContext() { }
-		public void copyFrom(AtomContext ctx) {
+		public AtomExpContext() { }
+		public void copyFrom(AtomExpContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class FunctionAtomContext extends AtomContext {
-		public FunctionCallContext functionCall() {
-			return getRuleContext(FunctionCallContext.class,0);
-		}
-		public FunctionAtomContext(AtomContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterFunctionAtom(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitFunctionAtom(this);
-		}
-	}
-	public static class ValueContext extends AtomContext {
-		public NumberContext number() {
-			return getRuleContext(NumberContext.class,0);
-		}
-		public ValueContext(AtomContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterValue(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitValue(this);
-		}
-	}
-	public static class ParensContext extends AtomContext {
-		public TerminalNode LPAREN() { return getToken(WRBParser.LPAREN, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public TerminalNode RPAREN() { return getToken(WRBParser.RPAREN, 0); }
-		public TerminalNode SUB() { return getToken(WRBParser.SUB, 0); }
-		public ParensContext(AtomContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterParens(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitParens(this);
-		}
-	}
-	public static class IdContext extends AtomContext {
+	public static class IdContext extends AtomExpContext {
 		public TerminalNode ID() { return getToken(WRBParser.ID, 0); }
 		public TerminalNode SUB() { return getToken(WRBParser.SUB, 0); }
-		public IdContext(AtomContext ctx) { copyFrom(ctx); }
+		public IdContext(AtomExpContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterId(this);
@@ -843,134 +633,261 @@ public class WRBParser extends Parser {
 			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitId(this);
 		}
 	}
-	public static class SetConstantContext extends AtomContext {
-		public ConstantContext constant() {
-			return getRuleContext(ConstantContext.class,0);
+	public static class ValContext extends AtomExpContext {
+		public NumberContext number() {
+			return getRuleContext(NumberContext.class,0);
 		}
-		public SetConstantContext(AtomContext ctx) { copyFrom(ctx); }
+		public ValContext(AtomExpContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterSetConstant(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterVal(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitSetConstant(this);
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitVal(this);
+		}
+	}
+	public static class FunctionAtomContext extends AtomExpContext {
+		public Token name;
+		public TerminalNode LPAREN() { return getToken(WRBParser.LPAREN, 0); }
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode RPAREN() { return getToken(WRBParser.RPAREN, 0); }
+		public TerminalNode ID() { return getToken(WRBParser.ID, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(WRBParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(WRBParser.COMMA, i);
+		}
+		public FunctionAtomContext(AtomExpContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterFunctionAtom(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitFunctionAtom(this);
+		}
+	}
+	public static class PowContext extends AtomExpContext {
+		public List<AtomExpContext> atomExp() {
+			return getRuleContexts(AtomExpContext.class);
+		}
+		public AtomExpContext atomExp(int i) {
+			return getRuleContext(AtomExpContext.class,i);
+		}
+		public List<TerminalNode> POW() { return getTokens(WRBParser.POW); }
+		public TerminalNode POW(int i) {
+			return getToken(WRBParser.POW, i);
+		}
+		public PowContext(AtomExpContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterPow(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitPow(this);
+		}
+	}
+	public static class ParensContext extends AtomExpContext {
+		public TerminalNode LPAREN() { return getToken(WRBParser.LPAREN, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode RPAREN() { return getToken(WRBParser.RPAREN, 0); }
+		public TerminalNode SUB() { return getToken(WRBParser.SUB, 0); }
+		public ParensContext(AtomExpContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterParens(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitParens(this);
+		}
+	}
+	public static class InfinityContext extends AtomExpContext {
+		public Token sign;
+		public TerminalNode INFINITY() { return getToken(WRBParser.INFINITY, 0); }
+		public TerminalNode SUB() { return getToken(WRBParser.SUB, 0); }
+		public InfinityContext(AtomExpContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterInfinity(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitInfinity(this);
 		}
 	}
 
-	public final AtomContext atom() throws RecognitionException {
-		AtomContext _localctx = new AtomContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_atom);
+	public final AtomExpContext atomExp() throws RecognitionException {
+		return atomExp(0);
+	}
+
+	private AtomExpContext atomExp(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		AtomExpContext _localctx = new AtomExpContext(_ctx, _parentState);
+		AtomExpContext _prevctx = _localctx;
+		int _startState = 14;
+		enterRecursionRule(_localctx, 14, RULE_atomExp, _p);
 		int _la;
 		try {
-			setState(122);
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(109);
 			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
 			case 1:
-				_localctx = new ParensContext(_localctx);
-				enterOuterAlt(_localctx, 1);
 				{
-				setState(109);
+				_localctx = new ParensContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
+				setState(82);
 				_la = _input.LA(1);
 				if (_la==SUB) {
 					{
-					setState(108);
+					setState(81);
 					match(SUB);
 					}
 				}
 
 				{
-				setState(111);
+				setState(84);
 				match(LPAREN);
-				setState(112);
+				setState(85);
 				expr();
-				setState(113);
+				setState(86);
 				match(RPAREN);
 				}
 				}
 				break;
 			case 2:
-				_localctx = new IdContext(_localctx);
-				enterOuterAlt(_localctx, 2);
 				{
-				setState(116);
+				_localctx = new InfinityContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(89);
 				_la = _input.LA(1);
 				if (_la==SUB) {
 					{
-					setState(115);
+					setState(88);
+					((InfinityContext)_localctx).sign = match(SUB);
+					}
+				}
+
+				setState(91);
+				match(INFINITY);
+				}
+				break;
+			case 3:
+				{
+				_localctx = new IdContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(93);
+				_la = _input.LA(1);
+				if (_la==SUB) {
+					{
+					setState(92);
 					match(SUB);
 					}
 				}
 
-				setState(118);
+				setState(95);
 				match(ID);
 				}
 				break;
-			case 3:
-				_localctx = new ValueContext(_localctx);
-				enterOuterAlt(_localctx, 3);
+			case 4:
 				{
-				setState(119);
+				_localctx = new ValContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(96);
 				number();
 				}
 				break;
-			case 4:
-				_localctx = new SetConstantContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(120);
-				constant();
-				}
-				break;
 			case 5:
-				_localctx = new FunctionAtomContext(_localctx);
-				enterOuterAlt(_localctx, 5);
 				{
-				setState(121);
-				functionCall();
+				_localctx = new FunctionAtomContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(97);
+				((FunctionAtomContext)_localctx).name = match(ID);
+				setState(98);
+				match(LPAREN);
+				setState(99);
+				expr();
+				setState(104);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==COMMA) {
+					{
+					{
+					setState(100);
+					match(COMMA);
+					setState(101);
+					expr();
+					}
+					}
+					setState(106);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(107);
+				match(RPAREN);
 				}
 				break;
 			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ConstantContext extends ParserRuleContext {
-		public NumberContext number() {
-			return getRuleContext(NumberContext.class,0);
-		}
-		public TerminalNode SEMICOLONE() { return getToken(WRBParser.SEMICOLONE, 0); }
-		public ConstantContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_constant; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).enterConstant(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof WRBParserListener ) ((WRBParserListener)listener).exitConstant(this);
-		}
-	}
-
-	public final ConstantContext constant() throws RecognitionException {
-		ConstantContext _localctx = new ConstantContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_constant);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(124);
-			number();
-			setState(125);
-			match(SEMICOLONE);
+			_ctx.stop = _input.LT(-1);
+			setState(120);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					{
+					_localctx = new PowContext(new AtomExpContext(_parentctx, _parentState));
+					pushNewRecursionContext(_localctx, _startState, RULE_atomExp);
+					setState(111);
+					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
+					setState(114); 
+					_errHandler.sync(this);
+					_alt = 1;
+					do {
+						switch (_alt) {
+						case 1:
+							{
+							{
+							setState(112);
+							match(POW);
+							setState(113);
+							atomExp(0);
+							}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+						}
+						setState(116); 
+						_errHandler.sync(this);
+						_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+					} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+					}
+					} 
+				}
+				setState(122);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -979,7 +896,7 @@ public class WRBParser extends Parser {
 			_errHandler.recover(this, re);
 		}
 		finally {
-			exitRule();
+			unrollRecursionContexts(_parentctx);
 		}
 		return _localctx;
 	}
@@ -1005,21 +922,21 @@ public class WRBParser extends Parser {
 
 	public final NumberContext number() throws RecognitionException {
 		NumberContext _localctx = new NumberContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_number);
+		enterRule(_localctx, 16, RULE_number);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(128);
+			setState(124);
 			_la = _input.LA(1);
 			if (_la==SUB) {
 				{
-				setState(127);
+				setState(123);
 				match(SUB);
 				}
 			}
 
-			setState(130);
+			setState(126);
 			((NumberContext)_localctx).val = _input.LT(1);
 			_la = _input.LA(1);
 			if ( !(_la==DOUBLE_ || _la==INTEGER) ) {
@@ -1040,41 +957,55 @@ public class WRBParser extends Parser {
 		return _localctx;
 	}
 
+	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
+		switch (ruleIndex) {
+		case 7:
+			return atomExp_sempred((AtomExpContext)_localctx, predIndex);
+		}
+		return true;
+	}
+	private boolean atomExp_sempred(AtomExpContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 0:
+			return precpred(_ctx, 1);
+		}
+		return true;
+	}
+
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\27\u0087\4\2\t\2"+
-		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\3\3\3\3\3\3\7\3#\n\3\f\3\16"+
-		"\3&\13\3\3\3\5\3)\n\3\3\4\3\4\3\4\5\4.\n\4\3\5\3\5\3\5\3\5\3\5\7\5\65"+
-		"\n\5\f\5\16\58\13\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\7\6C\n\6\f\6\16"+
-		"\6F\13\6\3\6\3\6\3\7\3\7\3\7\5\7M\n\7\3\7\3\7\3\7\3\7\5\7S\n\7\3\b\3\b"+
-		"\3\t\3\t\3\t\7\tZ\n\t\f\t\16\t]\13\t\3\n\3\n\3\n\7\nb\n\n\f\n\16\ne\13"+
-		"\n\3\13\3\13\3\13\7\13j\n\13\f\13\16\13m\13\13\3\f\5\fp\n\f\3\f\3\f\3"+
-		"\f\3\f\3\f\5\fw\n\f\3\f\3\f\3\f\3\f\5\f}\n\f\3\r\3\r\3\r\3\16\5\16\u0083"+
-		"\n\16\3\16\3\16\3\16\2\2\17\2\4\6\b\n\f\16\20\22\24\26\30\32\2\5\3\2\3"+
-		"\4\3\2\5\6\3\2\25\26\u008b\2\34\3\2\2\2\4\37\3\2\2\2\6-\3\2\2\2\b/\3\2"+
-		"\2\2\n=\3\2\2\2\fR\3\2\2\2\16T\3\2\2\2\20V\3\2\2\2\22^\3\2\2\2\24f\3\2"+
-		"\2\2\26|\3\2\2\2\30~\3\2\2\2\32\u0082\3\2\2\2\34\35\5\4\3\2\35\36\7\2"+
-		"\2\3\36\3\3\2\2\2\37$\5\6\4\2 !\7\n\2\2!#\5\6\4\2\" \3\2\2\2#&\3\2\2\2"+
-		"$\"\3\2\2\2$%\3\2\2\2%(\3\2\2\2&$\3\2\2\2\')\7\n\2\2(\'\3\2\2\2()\3\2"+
-		"\2\2)\5\3\2\2\2*.\5\f\7\2+.\5\b\5\2,.\5\16\b\2-*\3\2\2\2-+\3\2\2\2-,\3"+
-		"\2\2\2.\7\3\2\2\2/\60\7\24\2\2\60\61\7\17\2\2\61\66\7\24\2\2\62\63\7\f"+
-		"\2\2\63\65\7\24\2\2\64\62\3\2\2\2\658\3\2\2\2\66\64\3\2\2\2\66\67\3\2"+
-		"\2\2\679\3\2\2\28\66\3\2\2\29:\7\20\2\2:;\7\r\2\2;<\5\16\b\2<\t\3\2\2"+
-		"\2=>\7\24\2\2>?\7\17\2\2?D\5\16\b\2@A\7\f\2\2AC\5\16\b\2B@\3\2\2\2CF\3"+
-		"\2\2\2DB\3\2\2\2DE\3\2\2\2EG\3\2\2\2FD\3\2\2\2GH\7\20\2\2H\13\3\2\2\2"+
-		"IJ\7\24\2\2JL\7\r\2\2KM\7\4\2\2LK\3\2\2\2LM\3\2\2\2MN\3\2\2\2NS\7\24\2"+
-		"\2OP\7\24\2\2PQ\7\r\2\2QS\5\16\b\2RI\3\2\2\2RO\3\2\2\2S\r\3\2\2\2TU\5"+
-		"\20\t\2U\17\3\2\2\2V[\5\22\n\2WX\t\2\2\2XZ\5\22\n\2YW\3\2\2\2Z]\3\2\2"+
-		"\2[Y\3\2\2\2[\\\3\2\2\2\\\21\3\2\2\2][\3\2\2\2^c\5\24\13\2_`\t\3\2\2`"+
-		"b\5\24\13\2a_\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2\2d\23\3\2\2\2ec\3\2"+
-		"\2\2fk\5\26\f\2gh\7\7\2\2hj\5\26\f\2ig\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3"+
-		"\2\2\2l\25\3\2\2\2mk\3\2\2\2np\7\4\2\2on\3\2\2\2op\3\2\2\2pq\3\2\2\2q"+
-		"r\7\17\2\2rs\5\16\b\2st\7\20\2\2t}\3\2\2\2uw\7\4\2\2vu\3\2\2\2vw\3\2\2"+
-		"\2wx\3\2\2\2x}\7\24\2\2y}\5\32\16\2z}\5\30\r\2{}\5\n\6\2|o\3\2\2\2|v\3"+
-		"\2\2\2|y\3\2\2\2|z\3\2\2\2|{\3\2\2\2}\27\3\2\2\2~\177\5\32\16\2\177\u0080"+
-		"\7\n\2\2\u0080\31\3\2\2\2\u0081\u0083\7\4\2\2\u0082\u0081\3\2\2\2\u0082"+
-		"\u0083\3\2\2\2\u0083\u0084\3\2\2\2\u0084\u0085\t\4\2\2\u0085\33\3\2\2"+
-		"\2\20$(-\66DLR[ckov|\u0082";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\27\u0083\4\2\t\2"+
+		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3"+
+		"\2\3\2\3\3\3\3\3\3\3\3\5\3\34\n\3\3\3\3\3\7\3 \n\3\f\3\16\3#\13\3\3\3"+
+		"\5\3&\n\3\5\3(\n\3\3\4\3\4\3\4\5\4-\n\4\3\4\3\4\3\5\3\5\3\5\3\5\3\6\3"+
+		"\6\3\6\3\6\3\6\7\6:\n\6\f\6\16\6=\13\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\7\7"+
+		"F\n\7\f\7\16\7I\13\7\3\b\3\b\3\b\7\bN\n\b\f\b\16\bQ\13\b\3\t\3\t\5\tU"+
+		"\n\t\3\t\3\t\3\t\3\t\3\t\5\t\\\n\t\3\t\3\t\5\t`\n\t\3\t\3\t\3\t\3\t\3"+
+		"\t\3\t\3\t\7\ti\n\t\f\t\16\tl\13\t\3\t\3\t\5\tp\n\t\3\t\3\t\3\t\6\tu\n"+
+		"\t\r\t\16\tv\7\ty\n\t\f\t\16\t|\13\t\3\n\5\n\177\n\n\3\n\3\n\3\n\2\3\20"+
+		"\13\2\4\6\b\n\f\16\20\22\2\5\3\2\3\4\3\2\5\6\3\2\25\26\u008e\2\24\3\2"+
+		"\2\2\4\33\3\2\2\2\6)\3\2\2\2\b\60\3\2\2\2\n\64\3\2\2\2\fB\3\2\2\2\16J"+
+		"\3\2\2\2\20o\3\2\2\2\22~\3\2\2\2\24\25\5\4\3\2\25\26\7\2\2\3\26\3\3\2"+
+		"\2\2\27\34\5\6\4\2\30\34\5\b\5\2\31\34\5\n\6\2\32\34\5\f\7\2\33\27\3\2"+
+		"\2\2\33\30\3\2\2\2\33\31\3\2\2\2\33\32\3\2\2\2\34\'\3\2\2\2\35\36\7\13"+
+		"\2\2\36 \5\4\3\2\37\35\3\2\2\2 #\3\2\2\2!\37\3\2\2\2!\"\3\2\2\2\"(\3\2"+
+		"\2\2#!\3\2\2\2$&\7\13\2\2%$\3\2\2\2%&\3\2\2\2&(\3\2\2\2\'!\3\2\2\2\'%"+
+		"\3\2\2\2(\5\3\2\2\2)*\7\24\2\2*,\7\r\2\2+-\7\4\2\2,+\3\2\2\2,-\3\2\2\2"+
+		"-.\3\2\2\2./\7\24\2\2/\7\3\2\2\2\60\61\7\24\2\2\61\62\7\r\2\2\62\63\5"+
+		"\f\7\2\63\t\3\2\2\2\64\65\7\24\2\2\65\66\7\17\2\2\66;\7\24\2\2\678\7\t"+
+		"\2\28:\7\24\2\29\67\3\2\2\2:=\3\2\2\2;9\3\2\2\2;<\3\2\2\2<>\3\2\2\2=;"+
+		"\3\2\2\2>?\7\20\2\2?@\7\r\2\2@A\5\f\7\2A\13\3\2\2\2BG\5\16\b\2CD\t\2\2"+
+		"\2DF\5\16\b\2EC\3\2\2\2FI\3\2\2\2GE\3\2\2\2GH\3\2\2\2H\r\3\2\2\2IG\3\2"+
+		"\2\2JO\5\20\t\2KL\t\3\2\2LN\5\20\t\2MK\3\2\2\2NQ\3\2\2\2OM\3\2\2\2OP\3"+
+		"\2\2\2P\17\3\2\2\2QO\3\2\2\2RT\b\t\1\2SU\7\4\2\2TS\3\2\2\2TU\3\2\2\2U"+
+		"V\3\2\2\2VW\7\17\2\2WX\5\f\7\2XY\7\20\2\2Yp\3\2\2\2Z\\\7\4\2\2[Z\3\2\2"+
+		"\2[\\\3\2\2\2\\]\3\2\2\2]p\7\23\2\2^`\7\4\2\2_^\3\2\2\2_`\3\2\2\2`a\3"+
+		"\2\2\2ap\7\24\2\2bp\5\22\n\2cd\7\24\2\2de\7\17\2\2ej\5\f\7\2fg\7\t\2\2"+
+		"gi\5\f\7\2hf\3\2\2\2il\3\2\2\2jh\3\2\2\2jk\3\2\2\2km\3\2\2\2lj\3\2\2\2"+
+		"mn\7\20\2\2np\3\2\2\2oR\3\2\2\2o[\3\2\2\2o_\3\2\2\2ob\3\2\2\2oc\3\2\2"+
+		"\2pz\3\2\2\2qt\f\3\2\2rs\7\b\2\2su\5\20\t\2tr\3\2\2\2uv\3\2\2\2vt\3\2"+
+		"\2\2vw\3\2\2\2wy\3\2\2\2xq\3\2\2\2y|\3\2\2\2zx\3\2\2\2z{\3\2\2\2{\21\3"+
+		"\2\2\2|z\3\2\2\2}\177\7\4\2\2~}\3\2\2\2~\177\3\2\2\2\177\u0080\3\2\2\2"+
+		"\u0080\u0081\t\4\2\2\u0081\23\3\2\2\2\22\33!%\',;GOT[_jovz~";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

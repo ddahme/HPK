@@ -9,13 +9,13 @@ ADD : '+';
 SUB : '-';
 DIV : '/';
 MUL : '*';
-EXP : '^'|'**';
 MOD : '%';
+POW: ('**'|'^');
 
+COMMA: ',';
 COLONE : ':';
 SEMICOLONE : ';';
 DOT : '.';
-COMMA : ',';
 ASSIGN : '=';
 UNDERLINE : '_';
 
@@ -24,7 +24,7 @@ RPAREN : ')';
 LBRACK : '[';
 RBRACK : ']'; 
  
-
+//TODO ignore upper-case and lower-case; InFiNIty should also be valid
 INFINITY: 'Infinity';
 
 ID : LETTER (LETTER|DIGIT|UNDERLINE|DOT)*;
@@ -34,9 +34,9 @@ DOUBLE_ : INTEGER DOT (DIGIT)* (('E'|'e') (SUB)? DIGIT*)?;
 
 INTEGER : DIGIT+ ;
 
-fragment LETTER : [a-z|A-Z];
+fragment LETTER : [a-zA-Z];
 fragment DIGIT : [0-9]; 
 
 WS : [ \r\t\n] -> skip ;
-
+//SPACE : ' ' { if(ignore) skip(); };
 

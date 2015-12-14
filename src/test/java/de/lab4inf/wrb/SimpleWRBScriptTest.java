@@ -132,8 +132,6 @@ public class SimpleWRBScriptTest {
     @Test
     public void testParseBracket() throws Exception {
         String task = " 2*(4.0 + 3)";
-        double expacted = 14;
-        double actual = script.parse(task);
-        assertEquals(expacted, actual, eps);
+        assertEquals(14, script.parse(task), eps);
     }
 }
