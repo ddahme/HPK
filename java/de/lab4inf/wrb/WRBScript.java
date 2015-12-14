@@ -89,7 +89,7 @@ public class WRBScript implements Script {
 		EvalContext evalContext = parser.eval();
 		ParseTreeWalker walker = new ParseTreeWalker();
 		WRBObserver listener = new WRBObserver(this);
-		System.out.println(evalContext.toStringTree(parser));
+		//System.out.println(evalContext.toStringTree(parser));
 		walker.walk(listener, evalContext);
 		result = listener.lastValue;
 		return result;
